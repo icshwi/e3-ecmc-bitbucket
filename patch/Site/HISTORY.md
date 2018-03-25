@@ -1,7 +1,10 @@
-# what_ever_filename.p0.patch
+# git_version_str_undefined_symbol.p0.patch
 
-Generic Description.....
+```
+Loading /epics/modules/ecmc/4.2.0/R3.15.5/lib/linux-x86_64/libecmc.so library failed: /epics/modules/ecmc/4.2.0/R3.15.5/lib/linux-x86_64/libecmc.so: undefined symbol: git_version_str
+```
+
+Maybe temp. patch, but the variable only is used for printf. 
 
 * created by Jeong Han Lee, han.lee@esss.se
-* related URL or reference https://github.com/icshwi
-* Tuesday, February 13 13:24:57 CET 2018
+* Sunday, March 25 01:40:16 CET 2018

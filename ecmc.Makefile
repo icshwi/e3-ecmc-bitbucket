@@ -39,31 +39,22 @@ USR_LDFLAGS += -L /opt/etherlab/lib
 USR_LDFLAGS += -lethercat
 USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
 
-
-
 APP:=ecmcApp
 APPDB:=$(APP)/Db
 APPSRC:=$(APP)/src
 
 
-USR_INCLUDES += -I$(where_am_I)/$(APPSRC)
-
-OPT_CXXFLAGS_YES = -O3
-
-# USR_CFLAGS   += -Wno-unused-variable
-# USR_CFLAGS   += -Wno-unused-function
-# USR_CFLAGS   += -Wno-unused-but-set-variable
-# USR_CPPFLAGS += -Wno-unused-variable
-# USR_CPPFLAGS += -Wno-unused-function
-# USR_CPPFLAGS += -Wno-unused-but-set-variable
+USR_INCLUDES += -I$(where_am_I)$(APPSRC)
 
 # TEMPLATES += $(wildcard $(APPDB)/*.db)
 
-HEADERS += $(APPSRC)/gitversion.h
+#HEADERS += $(APPSRC)/gitversion.h
+#HEADERS += $(wildcard $(APPSRC)/*.h)
+#HEADERS += $(wildcard $(APPSRC)/*.hpp)
 
 SOURCES += $(APPSRC)/cmd.c
 SOURCES += $(APPSRC)/cmd_EAT.c 
-SOURCES += $(APPSRC)/drvAsynECMCPort.cpp 
+
 SOURCES += $(APPSRC)/ecmcAxisBase.cpp 
 SOURCES += $(APPSRC)/ecmcAxisReal.cpp 
 SOURCES += $(APPSRC)/ecmcAxisVirt.cpp 
@@ -81,7 +72,7 @@ SOURCES += $(APPSRC)/ecmcEcEntryLink.cpp
 SOURCES += $(APPSRC)/ecmcEncoder.cpp 
 SOURCES += $(APPSRC)/ecmcError.cpp 
 SOURCES += $(APPSRC)/ecmcFilter.cpp 
-SOURCES += $(APPSRC)/ecmcMain.cpp 
+
 SOURCES += $(APPSRC)/ecmcMasterSlaveData.cpp 
 SOURCES += $(APPSRC)/ecmcMasterSlaveIF.cpp 
 SOURCES += $(APPSRC)/ecmcMonitor.cpp 
@@ -94,11 +85,19 @@ SOURCES += $(APPSRC)/ecmcDataRecorder.cpp
 SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
 SOURCES += $(APPSRC)/ecmcAxisData.cpp 
-#SOURCES += $(APPSRC)/gitversion.h 
+
 SOURCES += $(APPSRC)/hw_motor.cpp 
-SOURCES += $(APPSRC)/ecmcAsynPortDriver.cpp 
 SOURCES += $(APPSRC)/ecmcAsynLink.cpp 
-SOURCES += $(APPSRC)/ecmcEcMemMap.cpp 
+SOURCES += $(APPSRC)/ecmcEcMemMap.cpp
+
+SOURCES += $(APPSRC)/ecmcAsynPortDriver.cpp
+SOURCES += $(APPSRC)/drvAsynECMCPort.cpp
+
+
+#SOURCES += $(APPSRC)/rtutilsSrc/rtutils.c
+
+DBDS +=  $(APPSRC)/ecmcController.dbd
+
 
 # db rule is the default in RULES_E3, so add the empty one
 
