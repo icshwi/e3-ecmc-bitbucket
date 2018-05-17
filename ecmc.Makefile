@@ -17,8 +17,8 @@
 # 
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Wednesday, May 16 15:22:22 CEST 2018
-# version : 0.0.2
+# Date    : Thursday, May 17 23:27:26 CEST 2018
+# version : 0.0.3
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -91,16 +91,19 @@ SOURCES += $(APPSRC)/ecmcEventConsumer.cpp
 SOURCES += $(APPSRC)/ecmcDataRecorder.cpp 
 SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
-SOURCES += $(APPSRC)/ecmcAxisData.cpp 
+SOURCES += $(APPSRC)/ecmcAxisData.cpp
+
+SOURCES += gitversion.c
 
 SOURCES += $(APPSRC)/hw_motor.cpp
 SOURCES += $(APPSRC)/ecmcAsynPortDriver.cpp
 SOURCES += $(APPSRC)/ecmcAsynLink.cpp 
 SOURCES += $(APPSRC)/ecmcEcMemMap.cpp
 
-SOURCES += $(APPSRC)/gitversion.c
+
 
 #SOURCES += $(APPSRC)/drvAsynECMCPort.cpp
+
 
 
 DBDS    += $(APPSRC)/ecmcController.dbd
@@ -110,7 +113,7 @@ ecmcEcMemMap$(DEP): gitversion.c
 
 gitversion.c: 
 	$(RM) $@
-	sh $(where_am_I)tools/gitversion.sh $(where_am_I)$(APPSRC)/$@
+	sh $(where_am_I)tools/gitversion.sh $@
 
 #SOURCES += $(APPSRC)/rtutilsSrc/rtutils.c
 
