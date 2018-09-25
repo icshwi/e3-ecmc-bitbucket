@@ -1,6 +1,6 @@
 #
 EPICS_MODULE_NAME:=ecmc
-EPICS_MODULE_TAG:=master
+EPICS_MODULE_TAG:=anders/addLinkCommands
 #
 E3_MODULE_VERSION:=develop
 
@@ -16,11 +16,11 @@ ASYN_DEP_VERSION:=4.33.0
 # In most case, we don't need to touch the following variables.
 #
 E3_MODULE_NAME:=$(EPICS_MODULE_NAME)
-E3_MODULE_SRC_PATH:=$(EPICS_MODULE_NAME)-dev
+E3_MODULE_SRC_PATH:=m-epics-$(EPICS_MODULE_NAME)-dev
 E3_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
 
 #export DEV_GIT_URL:="https://where your git repo"
-E3_MODULE_DEV_GITURL:="https://github.com/epics-modules/ecmc"
-
+#E3_MODULE_DEV_GITURL:="https://github.com/epics-modules/ecmc"
+E3_MODULE_DEV_GITURL:="https://bitbucket.org/europeanspallationsource/m-epics-ecmc"
 # The definitions shown below can also be placed in an untracked CONFIG_MODULE_DEV.local
 -include $(TOP)/configure/CONFIG_MODULE_DEV.local
