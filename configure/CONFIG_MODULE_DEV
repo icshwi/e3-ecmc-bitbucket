@@ -1,6 +1,6 @@
 #
 EPICS_MODULE_NAME:=ecmc
-EPICS_MODULE_TAG:=anders/dev20181001
+EPICS_MODULE_TAG:=anders/addPLC
 #
 E3_MODULE_VERSION:=develop
 

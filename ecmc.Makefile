@@ -92,6 +92,8 @@ SOURCES += $(APPSRC)/ecmcDataRecorder.cpp
 SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
 SOURCES += $(APPSRC)/ecmcAxisData.cpp
+SOURCES += $(APPSRC)/ecmcPLC.cpp
+SOURCES += $(APPSRC)/ecmcPLCDataIF.cpp
 
 SOURCES += gitversion.c
 
