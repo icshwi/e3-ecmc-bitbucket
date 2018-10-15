@@ -86,7 +86,7 @@ SOURCES += $(APPSRC)/ecmcMasterSlaveData.cpp
 SOURCES += $(APPSRC)/ecmcMasterSlaveIF.cpp 
 SOURCES += $(APPSRC)/ecmcMonitor.cpp 
 SOURCES += $(APPSRC)/ecmcPIDController.cpp 
-SOURCES += $(APPSRC)/ecmcSequencer.cpp 
+SOURCES += $(APPSRC)/ecmcAxisSequencer.cpp 
 SOURCES += $(APPSRC)/ecmcTrajectoryTrapetz.cpp 
 SOURCES += $(APPSRC)/ecmcEvent.cpp 
 SOURCES += $(APPSRC)/ecmcEventConsumer.cpp 
@@ -94,6 +94,9 @@ SOURCES += $(APPSRC)/ecmcDataRecorder.cpp
 SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
 SOURCES += $(APPSRC)/ecmcAxisData.cpp
+SOURCES += $(APPSRC)/ecmcPLC.cpp
+SOURCES += $(APPSRC)/ecmcPLCDataIF.cpp
+
 
 SOURCES += gitversion.c
 
