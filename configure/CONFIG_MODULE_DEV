@@ -1,6 +1,6 @@
 #
 EPICS_MODULE_NAME:=ecmc
-EPICS_MODULE_TAG:=anders/dev20181015
+EPICS_MODULE_TAG:=origin/master
 #
 E3_MODULE_VERSION:=develop
 
