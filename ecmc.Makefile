@@ -17,13 +17,14 @@
 # 
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Thursday, May 17 23:27:26 CEST 2018
-# version : 0.0.3
+# Date    : Wednesday, October 17 09:23:34 CEST 2018
+# version : 0.0.4
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(where_am_I)/../configure/DECOUPLE_FLAGS
+
 
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
@@ -32,8 +33,6 @@ endif
 ifneq ($(strip $(EXPRTK_DEP_VERSION)),)
 exprtk_VERSION=$(EXPRTK_DEP_VERSION)
 endif
-
-
 
 
 EXCLUDE_ARCHS += linux-ppc64e6500 
@@ -85,8 +84,15 @@ SOURCES += $(APPSRC)/ecmcFilter.cpp
 SOURCES += $(APPSRC)/ecmcMasterSlaveData.cpp 
 SOURCES += $(APPSRC)/ecmcMasterSlaveIF.cpp 
 SOURCES += $(APPSRC)/ecmcMonitor.cpp 
-SOURCES += $(APPSRC)/ecmcPIDController.cpp 
-SOURCES += $(APPSRC)/ecmcAxisSequencer.cpp 
+SOURCES += $(APPSRC)/ecmcPIDController.cpp
+
+# Before anders/ecmcVersion5.1.0
+ecmc_src += $(APPSRC)/ecmcSequencer.cpp 
+
+# After anders/ecmcVersion5.1.0
+ecmc_src += $(APPSRC)/ecmcAxisSequencer.cpp
+
+
 SOURCES += $(APPSRC)/ecmcTrajectoryTrapetz.cpp 
 SOURCES += $(APPSRC)/ecmcEvent.cpp 
 SOURCES += $(APPSRC)/ecmcEventConsumer.cpp 
@@ -94,8 +100,11 @@ SOURCES += $(APPSRC)/ecmcDataRecorder.cpp
 SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
 SOURCES += $(APPSRC)/ecmcAxisData.cpp
-SOURCES += $(APPSRC)/ecmcPLC.cpp
-SOURCES += $(APPSRC)/ecmcPLCDataIF.cpp
+
+# After anders/ecmcVersion5.1.0
+ecmc_src += $(APPSRC)/ecmcPLC.cpp
+ecmc_src += $(APPSRC)/ecmcPLCDataIF.cpp
+SOURCES += $(filter $(ecmc_src), $(wildcard $(APPSRC)/*.cpp))
 
 SOURCES += gitversion.c
 
