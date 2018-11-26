@@ -18,13 +18,12 @@
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
 # Date    : Wednesday, October 17 09:23:34 CEST 2018
-# version : 0.0.4
+# version : 0.0.5
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
-
 
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
@@ -34,13 +33,10 @@ ifneq ($(strip $(EXPRTK_DEP_VERSION)),)
 exprtk_VERSION=$(EXPRTK_DEP_VERSION)
 endif
 
-
 EXCLUDE_ARCHS += linux-ppc64e6500 
-
 
 USR_CPPFLAGS += -I/opt/etherlab/include
 USR_CFLAGS   += -I/opt/etherlab/include
-
 
 USR_CFLAGS += -fPIC
 USR_LDFLAGS += -L /opt/etherlab/lib
@@ -50,7 +46,6 @@ USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
 APP:=ecmcApp
 APPDB:=$(APP)/Db
 APPSRC:=$(APP)/src
-
 
 USR_INCLUDES += -I$(where_am_I)$(APPSRC)
 
@@ -92,7 +87,6 @@ ecmc_src += $(APPSRC)/ecmcSequencer.cpp
 # After anders/ecmcVersion5.1.0
 ecmc_src += $(APPSRC)/ecmcAxisSequencer.cpp
 
-
 SOURCES += $(APPSRC)/ecmcTrajectoryTrapetz.cpp 
 SOURCES += $(APPSRC)/ecmcEvent.cpp 
 SOURCES += $(APPSRC)/ecmcEventConsumer.cpp 
@@ -101,9 +95,11 @@ SOURCES += $(APPSRC)/ecmcDataStorage.cpp
 SOURCES += $(APPSRC)/ecmcCommandList.cpp 
 SOURCES += $(APPSRC)/ecmcAxisData.cpp
 
-# After anders/ecmcVersion5.1.0
+# from anders/ecmcVersion5.1.0
 ecmc_src += $(APPSRC)/ecmcPLC.cpp
 ecmc_src += $(APPSRC)/ecmcPLCDataIF.cpp
+# from anders/v5.2.0
+ecmc_src += $(APPSRC)/ecmcPLCs.cpp
 SOURCES += $(filter $(ecmc_src), $(wildcard $(APPSRC)/*.cpp))
 
 SOURCES += gitversion.c
@@ -114,13 +110,10 @@ SOURCES += $(APPSRC)/ecmcAsynLink.cpp
 SOURCES += $(APPSRC)/ecmcEcMemMap.cpp
 
 
-
 #SOURCES += $(APPSRC)/drvAsynECMCPort.cpp
 
 
-
 DBDS    += $(APPSRC)/ecmcController.dbd
-
 
 ecmcEcMemMap$(DEP): gitversion.c
 
@@ -128,14 +121,10 @@ gitversion.c:
 	$(RM) $@
 	sh $(where_am_I)tools/gitversion.sh $@
 
-#SOURCES += $(APPSRC)/rtutilsSrc/rtutils.c
 
-
-
-# db rule is the default in RULES_E3, so add the empty one
+.PHONY: vlibs db
 
 db:
-#
-.PHONY: vlibs
+
 vlibs:
-#
+
