@@ -46,6 +46,12 @@ USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
 APP:=ecmcApp
 APPDB:=$(APP)/Db
 APPSRC:=$(APP)/src
+APPSRC_ETHERCAT:=$(APPSRC)/ethercat
+APPSRC_MOTION:=$(APPSRC)/motion
+APPSRC_COM:=$(APPSRC)/com
+APPSRC_MAIN:=$(APPSRC)/main
+APPSRC_PLC:=$(APPSRC)/plc
+APPSRC_MISC:=$(APPSRC)/misc
 
 USR_INCLUDES += -I$(where_am_I)$(APPSRC)
 
@@ -55,65 +61,59 @@ USR_INCLUDES += -I$(where_am_I)$(APPSRC)
 #HEADERS += $(wildcard $(APPSRC)/*.h)
 #HEADERS += $(wildcard $(APPSRC)/*.hpp)
 
-SOURCES += $(APPSRC)/cmd.c
-SOURCES += $(APPSRC)/cmd_EAT.c 
+SOURCES += $(APPSRC_MAIN)/ecmcGeneral.cpp 
+SOURCES += $(APPSRC_MAIN)/ecmcError.cpp 
+SOURCES += $(APPSRC_MAIN)/ecmcMainThread.cpp
 
-SOURCES += $(APPSRC)/ecmcAxisBase.cpp 
-SOURCES += $(APPSRC)/ecmcAxisReal.cpp 
-SOURCES += $(APPSRC)/ecmcAxisVirt.cpp 
-SOURCES += $(APPSRC)/ecmcCommandTransform.cpp 
-SOURCES += $(APPSRC)/ecmcDriveBase.cpp 
-SOURCES += $(APPSRC)/ecmcDriveStepper.cpp 
-SOURCES += $(APPSRC)/ecmcDriveDS402.cpp 
-SOURCES += $(APPSRC)/ecmcEc.cpp 
-SOURCES += $(APPSRC)/ecmcEcEntry.cpp 
-SOURCES += $(APPSRC)/ecmcEcPdo.cpp 
-SOURCES += $(APPSRC)/ecmcEcSDO.cpp 
-SOURCES += $(APPSRC)/ecmcEcSlave.cpp 
-SOURCES += $(APPSRC)/ecmcEcSyncManager.cpp 
-SOURCES += $(APPSRC)/ecmcEcEntryLink.cpp 
-SOURCES += $(APPSRC)/ecmcEncoder.cpp 
-SOURCES += $(APPSRC)/ecmcError.cpp 
-SOURCES += $(APPSRC)/ecmcFilter.cpp 
+SOURCES += $(APPSRC_COM)/ecmcCom.cpp
+SOURCES += $(APPSRC_COM)/ecmcOctetIF.c
+SOURCES += $(APPSRC_COM)/ecmcCmdParser.c 
+SOURCES += $(APPSRC_COM)/ecmcAsynPortDriver.cpp 
 
-SOURCES += $(APPSRC)/ecmcMasterSlaveData.cpp 
-SOURCES += $(APPSRC)/ecmcMasterSlaveIF.cpp 
-SOURCES += $(APPSRC)/ecmcMonitor.cpp 
-SOURCES += $(APPSRC)/ecmcPIDController.cpp
+SOURCES += $(APPSRC_MOTION)/ecmcMotion.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcAxisBase.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcAxisReal.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcAxisVirt.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcCommandTransform.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcDriveBase.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcDriveStepper.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcDriveDS402.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcEncoder.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcFilter.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcMasterSlaveData.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcMasterSlaveIF.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcMonitor.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcPIDController.cpp
+SOURCES += $(APPSRC_MOTION)/ecmcAxisSequencer.cpp
+SOURCES += $(APPSRC_MOTION)/ecmcTrajectoryTrapetz.cpp 
+SOURCES += $(APPSRC_MOTION)/ecmcAxisData.cpp
 
-# Before anders/ecmcVersion5.1.0
-ecmc_src += $(APPSRC)/ecmcSequencer.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEthercat.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEc.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcEntry.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcPdo.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcSDO.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcSlave.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcSyncManager.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcEntryLink.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcAsynLink.cpp 
+SOURCES += $(APPSRC_ETHERCAT)/ecmcEcMemMap.cpp
 
-# After anders/ecmcVersion5.1.0
-ecmc_src += $(APPSRC)/ecmcAxisSequencer.cpp
+SOURCES += $(APPSRC_MISC)/ecmcMisc.cpp 
+SOURCES += $(APPSRC_MISC)/ecmcEvent.cpp 
+SOURCES += $(APPSRC_MISC)/ecmcEventConsumer.cpp 
+SOURCES += $(APPSRC_MISC)/ecmcDataRecorder.cpp 
+SOURCES += $(APPSRC_MISC)/ecmcDataStorage.cpp 
+SOURCES += $(APPSRC_MISC)/ecmcCommandList.cpp 
 
-SOURCES += $(APPSRC)/ecmcTrajectoryTrapetz.cpp 
-SOURCES += $(APPSRC)/ecmcEvent.cpp 
-SOURCES += $(APPSRC)/ecmcEventConsumer.cpp 
-SOURCES += $(APPSRC)/ecmcDataRecorder.cpp 
-SOURCES += $(APPSRC)/ecmcDataStorage.cpp 
-SOURCES += $(APPSRC)/ecmcCommandList.cpp 
-SOURCES += $(APPSRC)/ecmcAxisData.cpp
-
-# from anders/ecmcVersion5.1.0
-ecmc_src += $(APPSRC)/ecmcPLC.cpp
-ecmc_src += $(APPSRC)/ecmcPLCDataIF.cpp
-# from anders/v5.2.0
-ecmc_src += $(APPSRC)/ecmcPLCs.cpp
-SOURCES += $(filter $(ecmc_src), $(wildcard $(APPSRC)/*.cpp))
+SOURCES += $(APPSRC_PLC)/ecmcPLC.cpp
+SOURCES += $(APPSRC_PLC)/ecmcPLCTask.cpp
+SOURCES += $(APPSRC_PLC)/ecmcPLCDataIF.cpp
+SOURCES += $(APPSRC_PLC)/ecmcPLCMain.cpp
 
 SOURCES += gitversion.c
 
-SOURCES += $(APPSRC)/hw_motor.cpp
-SOURCES += $(APPSRC)/ecmcAsynPortDriver.cpp
-SOURCES += $(APPSRC)/ecmcAsynLink.cpp 
-SOURCES += $(APPSRC)/ecmcEcMemMap.cpp
-
-
-#SOURCES += $(APPSRC)/drvAsynECMCPort.cpp
-
-
-DBDS    += $(APPSRC)/ecmcController.dbd
+DBDS    += $(APPSRC_COM)/ecmcController.dbd
 
 ecmcEcMemMap$(DEP): gitversion.c
 
