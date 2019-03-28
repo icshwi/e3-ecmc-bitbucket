@@ -1,5 +1,6 @@
 #
-#  Copyright (c) 2017 - Present  European Spallation Source ERIC
+#  Copyright (c) 2019            Jeong Han Lee
+#  Copyright (c) 2017 - 2019     European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
 #  it and/or modify it under the terms of the GNU General Public License
@@ -17,8 +18,8 @@
 # 
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Wednesday, October 17 09:23:34 CEST 2018
-# version : 0.0.5
+# Date    : Thursday, March 28 23:21:12 CET 2019
+# version : 0.0.6
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -34,18 +35,34 @@ exprtk_VERSION=$(EXPRTK_DEP_VERSION)
 endif
 
 EXCLUDE_ARCHS += linux-ppc64e6500 
+EXCLUDE_ARCHS += linux-corei7-poky
 
-USR_CPPFLAGS += -I/opt/etherlab/include
-USR_CFLAGS   += -I/opt/etherlab/include
-
+ifeq ($(T_A),linux-ppc64e6500)
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/etherlab
+USR_CFLAGS   += -fPIC
+USR_LDFLAGS  += -L $(SDKTARGETSYSROOT)/usr/lib/etherlab
+USR_LDFLAGS  += -lethercat
+USR_LDFLAGS  += -Wl,-rpath=$(SDKTARGETSYSROOT)/usr/lib/etherlab
+else ifeq ($(T_A),linux-corei7-poky)
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/etherlab
+USR_CFLAGS   += -fPIC
+USR_LDFLAGS  += -L $(SDKTARGETSYSROOT)/usr/lib/etherlab
+USR_LDFLAGS  += -lethercat
+USR_LDFLAGS  += -Wl,-rpath=$(SDKTARGETSYSROOT)/usr/lib/etherlab
+else
+USR_INCLUDES += -I/opt/etherlab/include
 USR_CFLAGS += -fPIC
 USR_LDFLAGS += -L /opt/etherlab/lib
 USR_LDFLAGS += -lethercat
 USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
+endif
+
+
 
 APP:=ecmcApp
 APPDB:=$(APP)/Db
 APPSRC:=$(APP)/src
+
 APPSRC_ETHERCAT:=$(APPSRC)/ethercat
 APPSRC_MOTION:=$(APPSRC)/motion
 APPSRC_COM:=$(APPSRC)/com
@@ -54,12 +71,6 @@ APPSRC_PLC:=$(APPSRC)/plc
 APPSRC_MISC:=$(APPSRC)/misc
 
 USR_INCLUDES += -I$(where_am_I)$(APPSRC)
-
-# TEMPLATES += $(wildcard $(APPDB)/*.db)
-
-#HEADERS += $(APPSRC)/gitversion.h
-#HEADERS += $(wildcard $(APPSRC)/*.h)
-#HEADERS += $(wildcard $(APPSRC)/*.hpp)
 
 SOURCES += $(APPSRC_MAIN)/ecmcGeneral.cpp 
 SOURCES += $(APPSRC_MAIN)/ecmcError.cpp 
