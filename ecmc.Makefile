@@ -18,8 +18,8 @@
 # 
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Thursday, March 28 23:21:12 CET 2019
-# version : 0.0.6
+# Date    : Tuesday, September 17 11:30:53 CEST 2019
+# version : 0.0.7
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -37,31 +37,28 @@ endif
 EXCLUDE_ARCHS += linux-ppc64e6500 
 EXCLUDE_ARCHS += linux-corei7-poky
 
-ifeq ($(T_A),linux-ppc64e6500)
-USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/etherlab
-USR_CFLAGS   += -fPIC
-USR_LDFLAGS  += -L $(SDKTARGETSYSROOT)/usr/lib/etherlab
-USR_LDFLAGS  += -lethercat
-USR_LDFLAGS  += -Wl,-rpath=$(SDKTARGETSYSROOT)/usr/lib/etherlab
-else ifeq ($(T_A),linux-corei7-poky)
-USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/etherlab
-USR_CFLAGS   += -fPIC
-USR_LDFLAGS  += -L $(SDKTARGETSYSROOT)/usr/lib/etherlab
-USR_LDFLAGS  += -lethercat
-USR_LDFLAGS  += -Wl,-rpath=$(SDKTARGETSYSROOT)/usr/lib/etherlab
-else
+
+ifeq ($(T_A),linux-x86_64)
+# Assume that the etherlab user library is done via
+# https://github.com/icshwi/etherlabmaster
 USR_INCLUDES += -I/opt/etherlab/include
 USR_CFLAGS += -fPIC
 USR_LDFLAGS += -L /opt/etherlab/lib
 USR_LDFLAGS += -lethercat
 USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
+else
+# Assume that the etherlab user library is done via
+# Yocto ESS Linux bb recipe
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/etherlab
+USR_CFLAGS   += -fPIC
+USR_LDFLAGS  += -L $(SDKTARGETSYSROOT)/usr/lib/etherlab
+USR_LDFLAGS  += -lethercat
+USR_LDFLAGS  += -Wl,-rpath=$(SDKTARGETSYSROOT)/usr/lib/etherlab
 endif
 
 
-
-APP:=ecmcApp
-APPDB:=$(APP)/Db
-APPSRC:=$(APP)/src
+APP:=devEcmcSup
+APPSRC:=$(APP)
 
 APPSRC_ETHERCAT:=$(APPSRC)/ethercat
 APPSRC_MOTION:=$(APPSRC)/motion
@@ -128,8 +125,8 @@ DBDS    += $(APPSRC_COM)/ecmcController.dbd
 ecmcEcMemMap$(DEP): gitversion.c
 
 gitversion.c: 
-	$(RM) $@
-	sh $(where_am_I)tools/gitversion.sh $@
+	$(QUIET)$(RM) $@
+	$(QUIET)sh $(where_am_I)tools/gitversion.sh $@
 
 
 .PHONY: vlibs db

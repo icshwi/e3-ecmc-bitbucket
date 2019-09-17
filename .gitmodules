@@ -1,4 +1,5 @@
 [submodule "m-epics-ecmc"]
 	path = m-epics-ecmc
 	url = https://bitbucket.org/europeanspallationsource/m-epics-ecmc
-	ignore = all
+	ignore = dirty
+	
